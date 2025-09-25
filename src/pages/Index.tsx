@@ -3,16 +3,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Brain, GamepadIcon, Clock, Heart, Star, Target, ArrowRight, BookOpen, Zap, Search, Volume2, Eye, Palette } from 'lucide-react';
-import MemoryGame from '@/components/games/MemoryGame';
 import SimonGame from '@/components/games/SimonGame';
 import FocusTimer from '@/components/games/FocusTimer';
-import ColorMatchGame from '@/components/games/ColorMatchGame';
 import BreathingExercise from '@/components/games/BreathingExercise';
 import QuickMathGame from '@/components/games/QuickMathGame';
 import WordSearchGame from '@/components/games/WordSearchGame';
 import AudioColorGame from '@/components/games/AudioColorGame';
 import AnimalShadowGame from '@/components/games/AnimalShadowGame';
-import ColorPatternGame from '@/components/games/ColorPatternGame';
+// import ColorPatternGame from '@/components/games/ColorPatternGame';
 import ConcentrationTracker from '@/components/ConcentrationTracker';
 import TDAHInfo from '@/components/TDAHInfo';
 import ReviewsSection from '@/components/ReviewsSection';
@@ -24,14 +22,14 @@ export default function Index() {
   const [totalPoints, setTotalPoints] = useState(0);
 
   const games = [
-    {
-      id: 'memory' as const,
-      title: 'Juego de Memoria',
-      description: 'Encuentra las parejas de cartas iguales',
-      icon: Brain,
-      color: 'bg-blue-500',
-      difficulty: 'Fácil'
-    },
+    // {
+    //   id: 'memory' as const,
+    //   title: 'Juego de Memoria',
+    //   description: 'Encuentra las parejas de cartas iguales',
+    //   icon: Brain,
+    //   color: 'bg-blue-500',
+    //   difficulty: 'Fácil'
+    // },
     {
       id: 'simon' as const,
       title: 'Simón Dice',
@@ -72,14 +70,14 @@ export default function Index() {
       color: 'bg-orange-500',
       difficulty: 'Visual'
     },
-    {
-      id: 'colorpattern' as const,
-      title: 'Patrón de Colores',
-      description: 'Completa secuencias y patrones lógicos',
-      icon: Palette,
-      color: 'bg-teal-500',
-      difficulty: 'Lógico'
-    },
+    // {
+    //   id: 'colorpattern' as const,
+    //   title: 'Patrón de Colores',
+    //   description: 'Completa secuencias y patrones lógicos',
+    //   icon: Palette,
+    //   color: 'bg-teal-500',
+    //   difficulty: 'Lógico'
+    // },
     {
       id: 'timer' as const,
       title: 'Cronómetro de Concentración',
@@ -88,14 +86,14 @@ export default function Index() {
       color: 'bg-purple-500',
       difficulty: 'Fácil'
     },
-    {
-      id: 'colors' as const,
-      title: 'Empareja Colores',
-      description: 'Conecta los colores iguales',
-      icon: Star,
-      color: 'bg-amber-500',
-      difficulty: 'Fácil'
-    },
+    // {
+    //   id: 'colors' as const,
+    //   title: 'Empareja Colores',
+    //   description: 'Conecta los colores iguales',
+    //   icon: Star,
+    //   color: 'bg-amber-500',
+    //   difficulty: 'Fácil'
+    // },
     {
       id: 'breathing' as const,
       title: 'Ejercicio de Respiración',
@@ -110,8 +108,10 @@ export default function Index() {
     switch (currentPage) {
       case 'info':
         return <TDAHInfo onBack={() => setCurrentPage('home')} />;
-      case 'memory':
-        return <MemoryGame onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
+      // case 'memory':
+      //   return <MemoryGame onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
+      // case 'colorpattern':
+      //   return <ColorPatternGame onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
       case 'simon':
         return <SimonGame onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
       case 'quickmath':
@@ -126,8 +126,8 @@ export default function Index() {
         return <ColorPatternGame onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
       case 'timer':
         return <FocusTimer onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
-      case 'colors':
-        return <ColorMatchGame onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
+      // case 'colors':
+      //   return <ColorMatchGame onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
       case 'breathing':
         return <BreathingExercise onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
       case 'games':
