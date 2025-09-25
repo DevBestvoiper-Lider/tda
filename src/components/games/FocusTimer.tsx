@@ -98,182 +98,187 @@ export default function FocusTimer({ onPointsEarned, onBack }: FocusTimerProps) 
   };
 
   return (
-    <div className="relative min-h-screen p-4 bg-[#f2fbff] overflow-hidden">
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="w-full h-full animate-gradient-fade bg-gradient-to-br from-cyan-200 via-yellow-100 via-red-100 to-purple-200 opacity-60 blur-2xl" style={{backgroundSize:'200% 200%'}}></div>
-        <style>{`
-          @keyframes gradientFade {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-          .animate-gradient-fade {
-            animation: gradientFade 16s ease-in-out infinite;
-          }
-        `}</style>
-      </div>
-      <div className="relative z-10">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <Button 
-            onClick={onBack}
-            variant="outline" 
-            className="flex items-center space-x-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            <span>Volver</span>
-          </Button>
-          <h1 className="text-3xl font-bold text-gray-800">⏰ Cronómetro de Concentración</h1>
-          <Button 
-            onClick={resetTimer}
-            variant="outline"
-            className="flex items-center space-x-2"
-          >
-            <RotateCcw className="h-4 w-4" />
-            <span>Reiniciar</span>
-          </Button>
+    <div>
+      <Button variant="outline" onClick={onBack} className="mb-4 flex items-center gap-2">
+        <ArrowLeft className="h-5 w-5" /> Volver
+      </Button>
+      <div className="relative min-h-screen p-4 bg-[#f2fbff] overflow-hidden">
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <div className="w-full h-full animate-gradient-fade bg-gradient-to-br from-cyan-200 via-yellow-100 via-red-100 to-purple-200 opacity-60 blur-2xl" style={{backgroundSize:'200% 200%'}}></div>
+          <style>{`
+            @keyframes gradientFade {
+              0% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+              100% { background-position: 0% 50%; }
+            }
+            .animate-gradient-fade {
+              animation: gradientFade 16s ease-in-out infinite;
+            }
+          `}</style>
         </div>
+        <div className="relative z-10">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-6">
+            <Button 
+              onClick={onBack}
+              variant="outline" 
+              className="flex items-center space-x-2"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span>Volver</span>
+            </Button>
+            <h1 className="text-3xl font-bold text-gray-800">⏰ Cronómetro de Concentración</h1>
+            <Button 
+              onClick={resetTimer}
+              variant="outline"
+              className="flex items-center space-x-2"
+            >
+              <RotateCcw className="h-4 w-4" />
+              <span>Reiniciar</span>
+            </Button>
+          </div>
 
-        {/* Stats */}
-        <div className="flex flex-wrap justify-center gap-4 mb-6">
-          <Badge variant="outline" className="px-4 py-2 text-lg">
-            🎯 Sesiones completadas: {completedSessions}
-          </Badge>
-          <Badge variant="outline" className="px-4 py-2 text-lg">
-            ⭐ Puntos ganados: {completedSessions * selectedDuration * 5}
-          </Badge>
-        </div>
+          {/* Stats */}
+          <div className="flex flex-wrap justify-center gap-4 mb-6">
+            <Badge variant="outline" className="px-4 py-2 text-lg">
+              🎯 Sesiones completadas: {completedSessions}
+            </Badge>
+            <Badge variant="outline" className="px-4 py-2 text-lg">
+              ⭐ Puntos ganados: {completedSessions * selectedDuration * 5}
+            </Badge>
+          </div>
 
-        {/* Duration Selection */}
-        {!isActive && (
-          <Card className="mb-6 bg-white/80">
-            <CardHeader>
-              <CardTitle className="text-xl text-center">Elige tu tiempo de concentración</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {durations.map((duration) => (
-                  <button
-                    key={duration.minutes}
-                    onClick={() => selectDuration(duration.minutes)}
-                    className={`p-4 rounded-lg border-2 transition-all duration-300 transform hover:scale-105 ${
-                      selectedDuration === duration.minutes
-                        ? 'border-purple-500 bg-purple-50 shadow-lg'
-                        : 'border-gray-200 bg-white hover:border-purple-300'
-                    }`}
-                  >
-                    <div className="text-3xl mb-2">{duration.emoji}</div>
-                    <div className="font-bold text-lg">{duration.label}</div>
-                    <div className="text-sm text-gray-600">{duration.description}</div>
-                  </button>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
+          {/* Duration Selection */}
+          {!isActive && (
+            <Card className="mb-6 bg-white/80">
+              <CardHeader>
+                <CardTitle className="text-xl text-center">Elige tu tiempo de concentración</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {durations.map((duration) => (
+                    <button
+                      key={duration.minutes}
+                      onClick={() => selectDuration(duration.minutes)}
+                      className={`p-4 rounded-lg border-2 transition-all duration-300 transform hover:scale-105 ${
+                        selectedDuration === duration.minutes
+                          ? 'border-purple-500 bg-purple-50 shadow-lg'
+                          : 'border-gray-200 bg-white hover:border-purple-300'
+                      }`}
+                    >
+                      <div className="text-3xl mb-2">{duration.emoji}</div>
+                      <div className="font-bold text-lg">{duration.label}</div>
+                      <div className="text-sm text-gray-600">{duration.description}</div>
+                    </button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
-        {/* Timer Display */}
-        <Card className={`mb-6 border-4 ${isBreak ? 'border-green-400 bg-green-50' : 'border-purple-400 bg-purple-50'}`}>
-          <CardHeader className="text-center">
-            <CardTitle className={`text-3xl ${isBreak ? 'text-green-700' : 'text-purple-700'}`}>
-              {isBreak ? '🌸 Tiempo de Descanso' : '🎯 Tiempo de Concentración'}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-center">
-            <div className={`text-8xl font-mono font-bold mb-6 ${isBreak ? 'text-green-600' : 'text-purple-600'}`}>
-              {formatTime(timeLeft)}
-            </div>
-            
-            <Progress 
-              value={getProgress()} 
-              className={`mb-6 h-4 ${isBreak ? 'bg-green-200' : 'bg-purple-200'}`}
-            />
-
-            <div className="flex justify-center space-x-4 mb-6">
-              {!isActive ? (
-                <Button 
-                  onClick={startTimer}
-                  className={`px-8 py-3 text-lg ${isBreak ? 'bg-green-500 hover:bg-green-600' : 'bg-purple-500 hover:bg-purple-600'} text-white`}
-                >
-                  <Play className="mr-2 h-5 w-5" />
-                  Comenzar
-                </Button>
-              ) : (
-                <Button 
-                  onClick={pauseTimer}
-                  variant="outline"
-                  className="px-8 py-3 text-lg"
-                >
-                  <Pause className="mr-2 h-5 w-5" />
-                  Pausar
-                </Button>
-              )}
-            </div>
-
-            {isActive && (
-              <p className="text-lg font-semibold text-gray-700 animate-pulse">
-                {getRandomMessage()}
-              </p>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Session Complete */}
-        {completedSessions > 0 && (
-          <Card className="mb-6 bg-yellow-50 border-2 border-yellow-300">
+          {/* Timer Display */}
+          <Card className={`mb-6 border-4 ${isBreak ? 'border-green-400 bg-green-50' : 'border-purple-400 bg-purple-50'}`}>
             <CardHeader className="text-center">
-              <CardTitle className="text-2xl text-yellow-700 flex items-center justify-center space-x-2">
-                <Trophy className="h-8 w-8" />
-                <span>¡Felicidades por tus sesiones completadas!</span>
+              <CardTitle className={`text-3xl ${isBreak ? 'text-green-700' : 'text-purple-700'}`}>
+                {isBreak ? '🌸 Tiempo de Descanso' : '🎯 Tiempo de Concentración'}
               </CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="p-4 bg-white rounded-lg">
-                  <div className="text-2xl font-bold text-purple-600">{completedSessions}</div>
-                  <div className="text-sm text-gray-600">Sesiones completadas</div>
+              <div className={`text-8xl font-mono font-bold mb-6 ${isBreak ? 'text-green-600' : 'text-purple-600'}`}>
+                {formatTime(timeLeft)}
+              </div>
+              
+              <Progress 
+                value={getProgress()} 
+                className={`mb-6 h-4 ${isBreak ? 'bg-green-200' : 'bg-purple-200'}`}
+              />
+
+              <div className="flex justify-center space-x-4 mb-6">
+                {!isActive ? (
+                  <Button 
+                    onClick={startTimer}
+                    className={`px-8 py-3 text-lg ${isBreak ? 'bg-green-500 hover:bg-green-600' : 'bg-purple-500 hover:bg-purple-600'} text-white`}
+                  >
+                    <Play className="mr-2 h-5 w-5" />
+                    Comenzar
+                  </Button>
+                ) : (
+                  <Button 
+                    onClick={pauseTimer}
+                    variant="outline"
+                    className="px-8 py-3 text-lg"
+                  >
+                    <Pause className="mr-2 h-5 w-5" />
+                    Pausar
+                  </Button>
+                )}
+              </div>
+
+              {isActive && (
+                <p className="text-lg font-semibold text-gray-700 animate-pulse">
+                  {getRandomMessage()}
+                </p>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Session Complete */}
+          {completedSessions > 0 && (
+            <Card className="mb-6 bg-yellow-50 border-2 border-yellow-300">
+              <CardHeader className="text-center">
+                <CardTitle className="text-2xl text-yellow-700 flex items-center justify-center space-x-2">
+                  <Trophy className="h-8 w-8" />
+                  <span>¡Felicidades por tus sesiones completadas!</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-center">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="p-4 bg-white rounded-lg">
+                    <div className="text-2xl font-bold text-purple-600">{completedSessions}</div>
+                    <div className="text-sm text-gray-600">Sesiones completadas</div>
+                  </div>
+                  <div className="p-4 bg-white rounded-lg">
+                    <div className="text-2xl font-bold text-green-600">{completedSessions * selectedDuration}</div>
+                    <div className="text-sm text-gray-600">Minutos concentrado</div>
+                  </div>
+                  <div className="p-4 bg-white rounded-lg">
+                    <div className="text-2xl font-bold text-yellow-600">{completedSessions * selectedDuration * 5}</div>
+                    <div className="text-sm text-gray-600">Puntos ganados</div>
+                  </div>
                 </div>
-                <div className="p-4 bg-white rounded-lg">
-                  <div className="text-2xl font-bold text-green-600">{completedSessions * selectedDuration}</div>
-                  <div className="text-sm text-gray-600">Minutos concentrado</div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Tips */}
+          <Card className="bg-white/80">
+            <CardHeader>
+              <CardTitle className="text-xl text-center">💡 Consejos para concentrarte mejor</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="p-4 bg-blue-50 rounded-lg">
+                  <h4 className="font-bold text-blue-800 mb-2">🧘‍♂️ Durante la concentración:</h4>
+                  <ul className="text-sm text-blue-700 space-y-1">
+                    <li>• Siéntate cómodamente</li>
+                    <li>• Respira profundamente</li>
+                    <li>• Enfócate en una tarea</li>
+                    <li>• Evita distracciones</li>
+                  </ul>
                 </div>
-                <div className="p-4 bg-white rounded-lg">
-                  <div className="text-2xl font-bold text-yellow-600">{completedSessions * selectedDuration * 5}</div>
-                  <div className="text-sm text-gray-600">Puntos ganados</div>
+                <div className="p-4 bg-green-50 rounded-lg">
+                  <h4 className="font-bold text-green-800 mb-2">🌈 Durante el descanso:</h4>
+                  <ul className="text-sm text-green-700 space-y-1">
+                    <li>• Estírate un poco</li>
+                    <li>• Bebe agua</li>
+                    <li>• Mira hacia la ventana</li>
+                    <li>• Respira profundo</li>
+                  </ul>
                 </div>
               </div>
             </CardContent>
           </Card>
-        )}
-
-        {/* Tips */}
-        <Card className="bg-white/80">
-          <CardHeader>
-            <CardTitle className="text-xl text-center">💡 Consejos para concentrarte mejor</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="p-4 bg-blue-50 rounded-lg">
-                <h4 className="font-bold text-blue-800 mb-2">🧘‍♂️ Durante la concentración:</h4>
-                <ul className="text-sm text-blue-700 space-y-1">
-                  <li>• Siéntate cómodamente</li>
-                  <li>• Respira profundamente</li>
-                  <li>• Enfócate en una tarea</li>
-                  <li>• Evita distracciones</li>
-                </ul>
-              </div>
-              <div className="p-4 bg-green-50 rounded-lg">
-                <h4 className="font-bold text-green-800 mb-2">🌈 Durante el descanso:</h4>
-                <ul className="text-sm text-green-700 space-y-1">
-                  <li>• Estírate un poco</li>
-                  <li>• Bebe agua</li>
-                  <li>• Mira hacia la ventana</li>
-                  <li>• Respira profundo</li>
-                </ul>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        </div>
       </div>
     </div>
   );

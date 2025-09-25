@@ -280,84 +280,89 @@ export default function QuickMathGame({ onPointsEarned, onBack }: QuickMathGameP
   }
 
   return (
-    <div className="relative min-h-screen p-4 bg-[#fffde7] overflow-hidden">
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="w-full h-full animate-gradient-fade bg-gradient-to-br from-yellow-200 via-orange-100 via-red-100 to-purple-200 opacity-60 blur-2xl" style={{backgroundSize:'200% 200%'}}></div>
-        <style>{`
-          @keyframes gradientFade {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-          .animate-gradient-fade {
-            animation: gradientFade 16s ease-in-out infinite;
-          }
-        `}</style>
-      </div>
-      <div className="relative z-10">
-        <Card className="w-full max-w-2xl mx-auto">
-          <CardHeader>
-            <div className="flex justify-between items-center">
-              <CardTitle className="flex items-center gap-2">
-                <Zap className="h-5 w-5 text-yellow-500" />
-                Pregunta {questionNumber}/{totalQuestions}
-              </CardTitle>
-              <div className="flex items-center gap-4">
-                <Badge variant="outline">Racha: {streak}</Badge>
-                <Badge>{score} pts</Badge>
-              </div>
-            </div>
-            <Progress value={(questionNumber - 1) / totalQuestions * 100} className="w-full" />
-          </CardHeader>
-          
-          <CardContent className="space-y-6">
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <Clock className="h-5 w-5 text-blue-500" />
-                <span className={`text-2xl font-bold ${timeLeft <= 3 ? 'text-red-500' : 'text-blue-500'}`}>
-                  {timeLeft}s
-                </span>
-              </div>
-              <Progress value={(timeLeft / 10) * 100} className={`w-32 mx-auto ${timeLeft <= 3 ? 'bg-red-100' : ''}`} />
-            </div>
-
-            {currentQuestion && (
-              <div className="text-center space-y-6">
-                <div className="text-4xl font-bold p-6 bg-blue-50 rounded-lg">
-                  {currentQuestion.question}
+    <div>
+      <Button variant="outline" onClick={onBack} className="mb-4 flex items-center gap-2">
+        <ArrowLeft className="h-5 w-5" /> Volver
+      </Button>
+      <div className="relative min-h-screen p-4 bg-[#fffde7] overflow-hidden">
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <div className="w-full h-full animate-gradient-fade bg-gradient-to-br from-yellow-200 via-orange-100 via-red-100 to-purple-200 opacity-60 blur-2xl" style={{backgroundSize:'200% 200%'}}></div>
+          <style>{`
+            @keyframes gradientFade {
+              0% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+              100% { background-position: 0% 50%; }
+            }
+            .animate-gradient-fade {
+              animation: gradientFade 16s ease-in-out infinite;
+            }
+          `}</style>
+        </div>
+        <div className="relative z-10">
+          <Card className="w-full max-w-2xl mx-auto">
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <CardTitle className="flex items-center gap-2">
+                  <Zap className="h-5 w-5 text-yellow-500" />
+                  Pregunta {questionNumber}/{totalQuestions}
+                </CardTitle>
+                <div className="flex items-center gap-4">
+                  <Badge variant="outline">Racha: {streak}</Badge>
+                  <Badge>{score} pts</Badge>
                 </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  {currentQuestion.options.map((option, index) => (
-                    <Button
-                      key={index}
-                      variant={selectedAnswer === option ? 
-                        (isCorrect ? 'default' : 'destructive') : 
-                        'outline'
-                      }
-                      size="lg"
-                      className={`h-16 text-xl ${
-                        showResult && option === currentQuestion.correctAnswer ? 'bg-green-500 hover:bg-green-600' : ''
-                      }`}
-                      onClick={() => handleAnswer(option)}
-                      disabled={selectedAnswer !== null}
-                    >
-                      {option}
-                    </Button>
-                  ))}
+              </div>
+              <Progress value={(questionNumber - 1) / totalQuestions * 100} className="w-full" />
+            </CardHeader>
+            
+            <CardContent className="space-y-6">
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <Clock className="h-5 w-5 text-blue-500" />
+                  <span className={`text-2xl font-bold ${timeLeft <= 3 ? 'text-red-500' : 'text-blue-500'}`}>
+                    {timeLeft}s
+                  </span>
                 </div>
+                <Progress value={(timeLeft / 10) * 100} className={`w-32 mx-auto ${timeLeft <= 3 ? 'bg-red-100' : ''}`} />
+              </div>
 
-                {showResult && (
-                  <div className={`text-center p-4 rounded-lg ${
-                    isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                  }`}>
-                    {isCorrect ? '¡Correcto! 🎉' : `Incorrecto. La respuesta es ${currentQuestion.correctAnswer}`}
+              {currentQuestion && (
+                <div className="text-center space-y-6">
+                  <div className="text-4xl font-bold p-6 bg-blue-50 rounded-lg">
+                    {currentQuestion.question}
                   </div>
-                )}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    {currentQuestion.options.map((option, index) => (
+                      <Button
+                        key={index}
+                        variant={selectedAnswer === option ? 
+                          (isCorrect ? 'default' : 'destructive') : 
+                          'outline'
+                        }
+                        size="lg"
+                        className={`h-16 text-xl ${
+                          showResult && option === currentQuestion.correctAnswer ? 'bg-green-500 hover:bg-green-600' : ''
+                        }`}
+                        onClick={() => handleAnswer(option)}
+                        disabled={selectedAnswer !== null}
+                      >
+                        {option}
+                      </Button>
+                    ))}
+                  </div>
+
+                  {showResult && (
+                    <div className={`text-center p-4 rounded-lg ${
+                      isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                    }`}>
+                      {isCorrect ? '¡Correcto! 🎉' : `Incorrecto. La respuesta es ${currentQuestion.correctAnswer}`}
+                    </div>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

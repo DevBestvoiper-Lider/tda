@@ -296,120 +296,125 @@ export default function AnimalShadowGame({ onPointsEarned, onBack }: AnimalShado
   }
 
   return (
-    <div className="relative min-h-screen p-4 bg-[#fffaf2] overflow-hidden">
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="w-full h-full animate-gradient-fade bg-gradient-to-br from-orange-200 via-yellow-100 via-red-100 to-purple-200 opacity-60 blur-2xl" style={{backgroundSize:'200% 200%'}}></div>
-        <style>{`
-          @keyframes gradientFade {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-          .animate-gradient-fade {
-            animation: gradientFade 16s ease-in-out infinite;
-          }
-        `}</style>
-      </div>
-      <div className="relative z-10">
-        <Card className="w-full max-w-3xl mx-auto">
-          <CardHeader>
-            <div className="flex justify-between items-center">
-              <CardTitle className="flex items-center gap-2">
-                🔍 Ronda {round}/{totalRounds}
-              </CardTitle>
-              <div className="flex items-center gap-4">
-                <div className={`text-lg font-bold ${timeLeft <= 5 ? 'text-red-500' : ''}`}>
-                  ⏰ {timeLeft}s
-                </div>
-                <Badge variant="outline">Racha: {streak}</Badge>
-                <Badge>{score} pts</Badge>
-              </div>
-            </div>
-            <div className="flex justify-between items-center">
-              <Progress value={(round - 1) / totalRounds * 100} className="flex-1 mr-4" />
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={useHint}
-                disabled={hintsUsed >= 2 || selectedShadow !== null}
-                className="flex items-center gap-1"
-              >
-                <Eye className="h-4 w-4" />
-                Pista ({2 - hintsUsed})
-              </Button>
-            </div>
-          </CardHeader>
-          
-          <CardContent className="space-y-6">
-            {currentAnimal && (
-              <div className="text-center space-y-4">
-                <div className="text-xl font-semibold">¿Cuál es la sombra de este animal?</div>
-                
-                {/* Animal to match */}
-                <div className="p-8 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border-2 border-blue-200">
-                  <div className="text-8xl mb-2">{currentAnimal.emoji}</div>
-                  <div className="text-2xl font-bold text-blue-800">{currentAnimal.name}</div>
-                  <Badge variant="secondary" className="mt-2">
-                    {currentAnimal.category === 'farm' && '🚜 Granja'}
-                    {currentAnimal.category === 'pets' && '🏠 Mascota'}
-                    {currentAnimal.category === 'wild' && '🌍 Salvaje'}
-                    {currentAnimal.category === 'sea' && '🌊 Marino'}
-                  </Badge>
-                </div>
-
-                {/* Shadow options */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {shadowOptions.map((animal) => (
-                    <Button
-                      key={animal.id}
-                      variant={selectedShadow === animal.id ? 
-                        (isCorrect ? 'default' : 'destructive') : 
-                        'outline'
-                      }
-                      onClick={() => handleShadowSelect(animal.id)}
-                      disabled={selectedShadow !== null}
-                      className={`h-24 flex flex-col gap-2 transition-all hover:scale-105 ${
-                        showResult && animal.id === currentAnimal.id ? 
-                        'bg-green-500 hover:bg-green-600 text-white' : ''
-                      }`}
-                    >
-                      <div 
-                        className="text-4xl filter grayscale brightness-0"
-                        style={{ 
-                          filter: 'brightness(0) saturate(100%)',
-                          opacity: 0.8 
-                        }}
-                      >
-                        {animal.shadow}
-                      </div>
-                      <div className="text-xs opacity-75">Sombra {shadowOptions.indexOf(animal) + 1}</div>
-                    </Button>
-                  ))}
-                </div>
-
-                {showResult && (
-                  <div className={`text-center p-4 rounded-lg transition-all ${
-                    isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                  }`}>
-                    {isCorrect ? (
-                      <div className="space-y-2">
-                        <div className="text-lg font-bold">¡Correcto! 🎉</div>
-                        <div className="text-sm">
-                          {timeLeft > 10 && '⚡ Bono de velocidad +10'}
-                          {streak >= 3 && ' 🔥 Bono de racha +5'}
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="text-lg font-bold">
-                        Incorrecto. La sombra correcta era del {currentAnimal.name}
-                      </div>
-                    )}
+    <div>
+      <Button variant="outline" onClick={onBack} className="mb-4 flex items-center gap-2">
+        <ArrowLeft className="h-5 w-5" /> Volver
+      </Button>
+      <div className="relative min-h-screen p-4 bg-[#fffaf2] overflow-hidden">
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <div className="w-full h-full animate-gradient-fade bg-gradient-to-br from-orange-200 via-yellow-100 via-red-100 to-purple-200 opacity-60 blur-2xl" style={{backgroundSize:'200% 200%'}}></div>
+          <style>{`
+            @keyframes gradientFade {
+              0% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+              100% { background-position: 0% 50%; }
+            }
+            .animate-gradient-fade {
+              animation: gradientFade 16s ease-in-out infinite;
+            }
+          `}</style>
+        </div>
+        <div className="relative z-10">
+          <Card className="w-full max-w-3xl mx-auto">
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <CardTitle className="flex items-center gap-2">
+                  🔍 Ronda {round}/{totalRounds}
+                </CardTitle>
+                <div className="flex items-center gap-4">
+                  <div className={`text-lg font-bold ${timeLeft <= 5 ? 'text-red-500' : ''}`}>
+                    ⏰ {timeLeft}s
                   </div>
-                )}
+                  <Badge variant="outline">Racha: {streak}</Badge>
+                  <Badge>{score} pts</Badge>
+                </div>
               </div>
-            )}
-          </CardContent>
-        </Card>
+              <div className="flex justify-between items-center">
+                <Progress value={(round - 1) / totalRounds * 100} className="flex-1 mr-4" />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={useHint}
+                  disabled={hintsUsed >= 2 || selectedShadow !== null}
+                  className="flex items-center gap-1"
+                >
+                  <Eye className="h-4 w-4" />
+                  Pista ({2 - hintsUsed})
+                </Button>
+              </div>
+            </CardHeader>
+            
+            <CardContent className="space-y-6">
+              {currentAnimal && (
+                <div className="text-center space-y-4">
+                  <div className="text-xl font-semibold">¿Cuál es la sombra de este animal?</div>
+                  
+                  {/* Animal to match */}
+                  <div className="p-8 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border-2 border-blue-200">
+                    <div className="text-8xl mb-2">{currentAnimal.emoji}</div>
+                    <div className="text-2xl font-bold text-blue-800">{currentAnimal.name}</div>
+                    <Badge variant="secondary" className="mt-2">
+                      {currentAnimal.category === 'farm' && '🚜 Granja'}
+                      {currentAnimal.category === 'pets' && '🏠 Mascota'}
+                      {currentAnimal.category === 'wild' && '🌍 Salvaje'}
+                      {currentAnimal.category === 'sea' && '🌊 Marino'}
+                    </Badge>
+                  </div>
+
+                  {/* Shadow options */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {shadowOptions.map((animal) => (
+                      <Button
+                        key={animal.id}
+                        variant={selectedShadow === animal.id ? 
+                          (isCorrect ? 'default' : 'destructive') : 
+                          'outline'
+                        }
+                        onClick={() => handleShadowSelect(animal.id)}
+                        disabled={selectedShadow !== null}
+                        className={`h-24 flex flex-col gap-2 transition-all hover:scale-105 ${
+                          showResult && animal.id === currentAnimal.id ? 
+                          'bg-green-500 hover:bg-green-600 text-white' : ''
+                        }`}
+                      >
+                        <div 
+                          className="text-4xl filter grayscale brightness-0"
+                          style={{ 
+                            filter: 'brightness(0) saturate(100%)',
+                            opacity: 0.8 
+                          }}
+                        >
+                          {animal.shadow}
+                        </div>
+                        <div className="text-xs opacity-75">Sombra {shadowOptions.indexOf(animal) + 1}</div>
+                      </Button>
+                    ))}
+                  </div>
+
+                  {showResult && (
+                    <div className={`text-center p-4 rounded-lg transition-all ${
+                      isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                    }`}>
+                      {isCorrect ? (
+                        <div className="space-y-2">
+                          <div className="text-lg font-bold">¡Correcto! 🎉</div>
+                          <div className="text-sm">
+                            {timeLeft > 10 && '⚡ Bono de velocidad +10'}
+                            {streak >= 3 && ' 🔥 Bono de racha +5'}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="text-lg font-bold">
+                          Incorrecto. La sombra correcta era del {currentAnimal.name}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

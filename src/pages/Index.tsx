@@ -122,8 +122,8 @@ export default function Index() {
         return <AudioColorGame onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
       case 'animalshadow':
         return <AnimalShadowGame onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
-      case 'colorpattern':
-        return <ColorPatternGame onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
+      // case 'colorpattern':
+      //   return <ColorPatternGame onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
       case 'timer':
         return <FocusTimer onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
       // case 'colors':
