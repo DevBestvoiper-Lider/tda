@@ -5,12 +5,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 
 interface Review {
+  id: number;
   name: string;
   text: string;
-  date: string;
+  createdAt: string;
 }
 
-const LOCAL_KEY = 'tda_reviews';
+const formatDate = (isoDate: string) =>
+  new Date(isoDate).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
 
 export default function ReviewsSection() {
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -18,13 +20,16 @@ export default function ReviewsSection() {
   const [text, setText] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem(LOCAL_KEY);
-    if (stored) setReviews(JSON.parse(stored));
+    fetch('/api/reviews')
+      .then(res => res.json())
+      .then(setReviews)
+      .catch(() => setError('No se pudieron cargar las reseñas.'));
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccess('');
@@ -32,17 +37,24 @@ export default function ReviewsSection() {
       setError('Por favor, completa tu nombre y tu reseña.');
       return;
     }
-    const newReview: Review = {
-      name: name.trim(),
-      text: text.trim(),
-      date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })
-    };
-    const updated = [newReview, ...reviews];
-    setReviews(updated);
-    localStorage.setItem(LOCAL_KEY, JSON.stringify(updated));
-    setName('');
-    setText('');
-    setSuccess('¡Gracias por tu reseña!');
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name.trim(), text: text.trim() }),
+      });
+      if (!res.ok) throw new Error('request failed');
+      const created: Review = await res.json();
+      setReviews(prev => [created, ...prev]);
+      setName('');
+      setText('');
+      setSuccess('¡Gracias por tu reseña!');
+    } catch {
+      setError('No se pudo guardar tu reseña. Inténtalo de nuevo.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -70,15 +82,17 @@ export default function ReviewsSection() {
           />
           {error && <div className="text-red-500 text-sm">{error}</div>}
           {success && <div className="text-green-600 text-sm">{success}</div>}
-          <Button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white w-full">Enviar Reseña</Button>
+          <Button type="submit" disabled={submitting} className="bg-orange-500 hover:bg-orange-600 text-white w-full">
+            {submitting ? 'Enviando...' : 'Enviar Reseña'}
+          </Button>
         </form>
         <div className="space-y-4">
           {reviews.length === 0 && <div className="text-gray-500 text-center">Aún no hay reseñas. ¡Sé el primero!</div>}
-          {reviews.map((review, idx) => (
-            <div key={idx} className="border rounded p-3 bg-orange-50">
+          {reviews.map(review => (
+            <div key={review.id} className="border rounded p-3 bg-orange-50">
               <div className="flex items-center gap-2 mb-1">
                 <span className="font-semibold text-orange-700">{review.name}</span>
-                <Badge className="bg-yellow-200 text-yellow-800">{review.date}</Badge>
+                <Badge className="bg-yellow-200 text-yellow-800">{formatDate(review.createdAt)}</Badge>
               </div>
               <div className="text-gray-800">{review.text}</div>
             </div>
