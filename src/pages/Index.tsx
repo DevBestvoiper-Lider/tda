@@ -14,8 +14,10 @@ import AnimalShadowGame from '@/components/games/AnimalShadowGame';
 import ConcentrationTracker from '@/components/ConcentrationTracker';
 import TDAHInfo from '@/components/TDAHInfo';
 import ReviewsSection from '@/components/ReviewsSection';
+import AboutSection from '@/components/AboutSection';
+import NavMenu from '@/components/NavMenu';
 
-type PageType = 'home' | 'info' | 'games' | 'memory' | 'simon' | 'timer' | 'colors' | 'breathing' | 'quickmath' | 'wordsearch' | 'audiocolor' | 'animalshadow' | 'colorpattern';
+type PageType = 'home' | 'info' | 'about' | 'games' | 'memory' | 'simon' | 'timer' | 'colors' | 'breathing' | 'quickmath' | 'wordsearch' | 'audiocolor' | 'animalshadow' | 'colorpattern';
 
 export default function Index() {
   const [currentPage, setCurrentPage] = useState<PageType>('home');
@@ -43,7 +45,7 @@ export default function Index() {
       title: 'Preguntas Rápidas',
       description: 'Resuelve cálculos matemáticos a velocidad',
       icon: Zap,
-      color: 'bg-yellow-500',
+      color: 'bg-sky-500',
       difficulty: 'Dinámico'
     },
     {
@@ -67,7 +69,7 @@ export default function Index() {
       title: 'Encuentra la Sombra',
       description: 'Encuentra la sombra correcta de cada animal',
       icon: Eye,
-      color: 'bg-orange-500',
+      color: 'bg-teal-500',
       difficulty: 'Visual'
     },
     // {
@@ -99,7 +101,7 @@ export default function Index() {
       title: 'Ejercicio de Respiración',
       description: 'Relájate y concéntrate en tu respiración',
       icon: Heart,
-      color: 'bg-red-500',
+      color: 'bg-rose-400',
       difficulty: 'Relajante'
     }
   ];
@@ -107,7 +109,9 @@ export default function Index() {
   const renderCurrentPage = () => {
     switch (currentPage) {
       case 'info':
-        return <TDAHInfo onBack={() => setCurrentPage('home')} />;
+        return <TDAHInfo onBack={() => setCurrentPage('home')} onNavigate={setCurrentPage} />;
+      case 'about':
+        return <AboutSection onBack={() => setCurrentPage('home')} onNavigate={setCurrentPage} />;
       // case 'memory':
       //   return <MemoryGame onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
       // case 'colorpattern':
@@ -132,23 +136,26 @@ export default function Index() {
         return <BreathingExercise onPointsEarned={(points) => setTotalPoints(prev => prev + points)} onBack={() => setCurrentPage('games')} />;
       case 'games':
         return (
-          <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100">
+          <div className="min-h-screen bg-gradient-to-br from-blue-100 via-teal-50 to-purple-100">
             {/* Header */}
             <header className="bg-white shadow-lg border-b-4 border-rainbow-gradient">
               <div className="container mx-auto px-4 py-6">
                 <div className="flex items-center justify-between">
-                  <button 
-                    onClick={() => setCurrentPage('home')}
-                    className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
-                  >
-                    <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-full">
-                      <Brain className="h-8 w-8 text-white" />
-                    </div>
-                    <div>
-                      <h1 className="text-3xl font-bold text-gray-800">MenteFocus</h1>
-                      <p className="text-gray-600">Juegos para mejorar la concentración</p>
-                    </div>
-                  </button>
+                  <div className="flex items-center space-x-3">
+                    <NavMenu onNavigate={setCurrentPage} />
+                    <button
+                      onClick={() => setCurrentPage('home')}
+                      className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
+                    >
+                      <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-full">
+                        <Brain className="h-8 w-8 text-white" />
+                      </div>
+                      <div>
+                        <h1 className="text-3xl font-bold text-gray-800">MenteFocus</h1>
+                        <p className="text-gray-600">Juegos para mejorar la concentración</p>
+                      </div>
+                    </button>
+                  </div>
                   <ConcentrationTracker points={totalPoints} />
                 </div>
               </div>
@@ -177,7 +184,7 @@ export default function Index() {
                       <CardContent className="text-center">
                         <Button 
                           onClick={() => setCurrentPage(game.id)}
-                          className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold py-3 px-6 rounded-lg text-lg transition-all duration-300"
+                          className="w-full bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white font-bold py-3 px-6 rounded-lg text-lg transition-all duration-300"
                         >
                           <GamepadIcon className="mr-2 h-5 w-5" />
                           ¡Jugar Ahora!
@@ -192,11 +199,12 @@ export default function Index() {
         );
       default:
         return (
-          <div className="min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50">
+          <div className="min-h-screen bg-gradient-to-br from-blue-50 via-teal-50 to-purple-50">
             {/* Header with Logo */}
             <header className="bg-white shadow-sm">
               <div className="container mx-auto px-4 py-4">
                 <div className="flex items-center justify-between">
+                  <NavMenu onNavigate={setCurrentPage} />
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center justify-center w-full py-2">
                       <img src="/logo-institucional.png" alt="Logos Profesionales Salesianos y Don Bosco Tech" className="h-14 md:h-16 max-w-xs md:max-w-md object-contain mx-auto" />
@@ -217,14 +225,14 @@ export default function Index() {
                       Cada niño tiene su propio ritmo, y en cada pequeño paso que da, late un gran sueño esperando hacerse realidad.
                     </h1>
                     
-                    <p className="text-xl text-red-500 font-medium">
+                    <p className="text-xl text-teal-600 font-medium">
                       Un proyecto creado para niños con TDA
                     </p>
-                    
+
                     <div className="flex flex-col sm:flex-row gap-4">
-                      <Button 
+                      <Button
                         onClick={() => setCurrentPage('info')}
-                        className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 text-lg font-semibold rounded-sm"
+                        className="bg-teal-500 hover:bg-teal-600 text-white px-8 py-3 text-lg font-semibold rounded-sm"
                       >
                         <BookOpen className="mr-2 h-5 w-5" />
                         Leer más

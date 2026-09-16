@@ -70,14 +70,14 @@ export default function ReviewsSection() {
           />
           {error && <div className="text-red-500 text-sm">{error}</div>}
           {success && <div className="text-green-600 text-sm">{success}</div>}
-          <Button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white w-full">Enviar Reseña</Button>
+          <Button type="submit" className="bg-teal-500 hover:bg-teal-600 text-white w-full">Enviar Reseña</Button>
         </form>
         <div className="space-y-4">
           {reviews.length === 0 && <div className="text-gray-500 text-center">Aún no hay reseñas. ¡Sé el primero!</div>}
           {reviews.map((review, idx) => (
-            <div key={idx} className="border rounded p-3 bg-orange-50">
+            <div key={idx} className="border rounded p-3 bg-teal-50">
               <div className="flex items-center gap-2 mb-1">
-                <span className="font-semibold text-orange-700">{review.name}</span>
+                <span className="font-semibold text-teal-700">{review.name}</span>
                 <Badge className="bg-yellow-200 text-yellow-800">{review.date}</Badge>
               </div>
               <div className="text-gray-800">{review.text}</div>

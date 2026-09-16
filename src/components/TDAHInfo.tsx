@@ -2,26 +2,31 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Brain, Heart, Target, Users, BookOpen, Lightbulb } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import NavMenu from '@/components/NavMenu';
 
 interface TDAHInfoProps {
   onBack: () => void;
+  onNavigate: (page: 'home' | 'about') => void;
 }
 
-export default function TDAHInfo({ onBack }: TDAHInfoProps) {
+export default function TDAHInfo({ onBack, onNavigate }: TDAHInfoProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
       {/* Header */}
       <header className="bg-white shadow-sm border-b-2 border-blue-100">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
-            <Button 
-              onClick={onBack}
-              variant="outline" 
-              className="flex items-center space-x-2 hover:bg-blue-50"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              <span>Volver al inicio</span>
-            </Button>
+            <div className="flex items-center space-x-3">
+              <NavMenu onNavigate={onNavigate} />
+              <Button
+                onClick={onBack}
+                variant="outline"
+                className="flex items-center space-x-2 hover:bg-blue-50"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                <span>Volver al inicio</span>
+              </Button>
+            </div>
             <div className="flex items-center space-x-3">
               <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-3 rounded-full">
                 <Brain className="h-8 w-8 text-white" />
